@@ -13,6 +13,8 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
+
+
 steps:
 #- task: NuGetToolInstaller@1
 
@@ -59,6 +61,14 @@ steps:
   
 - task: SonarCloudAnalyze@1
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '$(solution)'
+    zipAfterPublish: true
+    arguments: 
+
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
@@ -66,3 +76,4 @@ steps:
     appType: 'webApp'
     WebAppName: 'GregoryAgnewP1'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+
