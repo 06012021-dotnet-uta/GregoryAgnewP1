@@ -16,7 +16,6 @@ namespace P1
 {
     public class Startup
     {
-        private string _connection = null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,10 +31,8 @@ namespace P1
             {
                 if (!options.IsConfigured) {
                     options.UseSqlServer(Configuration.GetConnectionString("P1Database"));
-                    }
+                }
             });
-            var builder = new StringBuilder(Configuration.GetConnectionString("P1Database"));
-            _connection = builder.ToString();
 
         }
 
