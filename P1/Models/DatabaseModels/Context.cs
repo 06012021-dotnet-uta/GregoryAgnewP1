@@ -33,13 +33,6 @@ namespace DatabaseModels
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseSqlServer("Server=.\\ASUSHOMECLOUD;Database=P0;Trusted_Connection=True;");
-                //var builder = new StringBuilder(Configuration.GetConnectionString("P1Database"));
-                //_connection = builder.ToString();
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -296,6 +289,11 @@ namespace DatabaseModels
                     .IsRequired()
                     .HasMaxLength(30)
                     .HasColumnName("lastname");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .HasColumnName("email");
 
                 entity.Property(e => e.Location)
                     .HasMaxLength(200)

@@ -1,7 +1,7 @@
 ﻿@model DatabaseModels.User
 
 @{
-    ViewData["Title"] = "Create Account";
+    ViewData["Title"] = "Log In";
     //Layout = null;
 }
 
@@ -11,6 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap core CSS -->
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -29,12 +30,14 @@
         }
     </style>
 
+
+    <!-- Custom styles for this template -->
     <link href="~/css/signin.css" rel="stylesheet">
 </head>
 <body class="text-center">
 
     <main class="form-signin">
-        <form asp-action="Create">
+        <form asp-action="Login">
             @Html.AntiForgeryToken()
             <img class="img-fluid" src="~/TheAwesomeStore.png" alt="The Awesome Store">
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
@@ -57,20 +60,15 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="Password" type="password" id="initial" class="form-control" placeholder="Password">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password">
                 <label asp-for="Password" for="floatingPassword">Password</label>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-floating">
-                <input type="password" name="confirm" class="form-control" placeholder="Password">
-                <label for="floatingPassword">Re-enter Password</label>
-            </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Create Account</button>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
             @section Scripts {
                 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
             }
         </form>
-        <a class="btn-link" asp-controller="Users" asp-action="Login">Log in</a>
     </main>
 </body>
 </html>
