@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DatabaseModels;
+using LogicModels;
 
 namespace P1
 {
@@ -27,13 +28,17 @@ namespace P1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(120);
+            });
             services.AddDbContext<Context>(options =>
             {
                 if (!options.IsConfigured) {
                     options.UseSqlServer(Configuration.GetConnectionString("P1Database"));
                 }
             });
-
+            services.AddScoped<ICheckThings, CheckThings>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +56,7 @@ namespace P1
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 
