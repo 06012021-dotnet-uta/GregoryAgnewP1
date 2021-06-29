@@ -64,7 +64,7 @@ namespace P1.Controllers
                 {
                     _context.Add(user);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index), nameof(HomeController).Replace("Controller",""));
+                    return RedirectToAction(nameof(Index), nameof(CategoryController).Replace("Controller",""));
                 }
                 else if(user.Password != confirm)
                 {
@@ -98,7 +98,7 @@ namespace P1.Controllers
                     HttpContext.Session.SetInt32("UserID",user.Userid);
                     //using HandlingSessionInAsp.NetMVCCore.Models;
                     //something = HttpContext.Session.GetString("UserID");
-                    return RedirectToAction(nameof(Index), nameof(HomeController).Replace("Controller", ""));
+                    return RedirectToAction(nameof(Index), nameof(CategoryController).Replace("Controller", ""));
                 }
                 else
                 {
