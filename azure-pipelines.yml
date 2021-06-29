@@ -6,7 +6,9 @@
 trigger:
 - main
 
-pool: P1temp
+#pool: P1temp
+pool:
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.sln'
@@ -59,7 +61,7 @@ steps:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '**/coburtura/coverage.xml'
   
-#- task: SonarCloudAnalyze@1
+- task: SonarCloudAnalyze@1
 
 - task: DotNetCoreCLI@2
   inputs:
