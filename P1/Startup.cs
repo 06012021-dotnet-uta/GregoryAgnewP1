@@ -39,6 +39,8 @@ namespace P1
                 }
             });
             services.AddScoped<ICheckThings, CheckThings>();
+            services.AddScoped<IItemz, Itemz>();
+            services.AddScoped<IInventoryz, Inventoryz>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
