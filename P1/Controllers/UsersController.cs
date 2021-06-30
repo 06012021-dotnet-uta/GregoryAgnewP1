@@ -23,11 +23,11 @@ namespace P1.Controllers
             _icheckthings = icheckthings;
         }
 
-        //// GET: Users
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Users.ToListAsync());
-        //}
+        // GET: Users
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         //// GET: Users/Details/5
         //public async Task<IActionResult> Details(int? id)
@@ -160,7 +160,7 @@ namespace P1.Controllers
         //    return View(user);
         //}
 
-        //// GET: Users/Delete/5
+        // GET: Users/Delete/5
         //public async Task<IActionResult> Delete(int? id)
         //{
         //    if (id == null)

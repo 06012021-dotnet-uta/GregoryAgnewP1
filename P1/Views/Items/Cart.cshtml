@@ -1,0 +1,131 @@
+﻿@model DatabaseModels.Context
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutSidebar";
+}
+
+@section Cart
+{
+<form asp-action="AddtoCart" asp-controller="Items" style ="width:100%">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Item Description
+                </th>
+                <th>
+                    Price (USD)
+                </th>
+                <th>
+                    # Availible
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < ViewBag.Item.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @ViewBag.Item[i]
+                        @*<input type="hidden" id="product" name="product" value=@ViewBag.Whatis[i]>*@
+                    </td>
+                    <td>
+                        @ViewBag.Quant[i]
+                    </td>
+                    <!--<td>-->
+                        @*@ViewBag.Amount[i]*@
+                    <!--</td>
+                    <td>
+                        <input id=quant type="number" min="0" max="@ViewBag.Amount[i]" class="form-control" placeholder="0">
+                    </td>-->
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*<button class="w-100 btn btn-lg btn-primary" type="submit">Add to Cart</button>*@
+</form>
+}
+
+
+@section Categories
+{
+<head>
+    <link href="~/css/sidebar.css" rel="stylesheet">
+</head>
+<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;" id="Sidebar">
+    <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap" /></svg>
+        <span class="fs-5 fw-semibold">Shop by Category</span>
+    </a>
+    <ul class="list-unstyled ps-0">
+        @foreach (var item in Model.Cat1s)
+        {
+        <li class="mb-1">
+            @if(Model.Cat1s.Join(Model.Cat12s, x => x.Cat1id, y => y.Cat1id, (x, y) => new { x.Category1, y.Cat2id }).Join(Model.Cat2s, m => m.Cat2id, n => n.Cat2id, (m, n) => new { m.Category1, n.Category2 }).Where(z => z.Category1.ToUpper() == item.Category1).Count()>0)
+            {
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#@item.Category1-collapse" aria-expanded="false">
+                @Html.DisplayFor(modelItem => item.Category1)
+            </button>
+            <div class="collapse" id="@item.Category1-collapse">
+                @foreach (var stillitem in Model.Cat1s.Join(Model.Cat12s, x => x.Cat1id, y => y.Cat1id, (x, y) => new { x.Category1, y.Cat2id }).Join(Model.Cat2s, m => m.Cat2id, n => n.Cat2id, (m, n) => new { m.Category1, n.Category2 }).Where(z => z.Category1.ToUpper() == item.Category1.ToUpper()))
+                {
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li>
+                        @if (Model.Cat2s.Join(Model.Cat23s, x => x.Cat2id, y => y.Cat2id, (x, y) => new { x.Category2, y.Cat3id }).Join(Model.Cat3s, m => m.Cat3id, n => n.Cat3id, (m, n) => new { m.Category2, n.Category3 }).Where(z => z.Category2.ToUpper() == stillitem.Category2).Count() > 0)
+                        {
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#@stillitem.Category2-collapse" aria-expanded="false">
+                            @Html.DisplayFor(modelItem => stillitem.Category2)
+                        </button>
+                        <div class="collapse" id="@stillitem.Category2-collapse">
+                            @foreach (var alsostillitem in Model.Cat2s.Join(Model.Cat23s, x => x.Cat2id, y => y.Cat2id, (x, y) => new { x.Category2, y.Cat3id }).Join(Model.Cat3s, m => m.Cat3id, n => n.Cat3id, (m, n) => new { m.Category2, n.Category3 }).Where(z => z.Category2.ToUpper() == stillitem.Category2))
+                            {
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li>
+                                    @if (Model.Cat3s.Join(Model.Cat34s, x => x.Cat3id, y => y.Cat3id, (x, y) => new { x.Category3, y.Cat4id }).Join(Model.Cat4s, m => m.Cat4id, n => n.Cat4id, (m, n) => new { m.Category3, n.Category4 }).Where(z => z.Category3.ToUpper() == alsostillitem.Category3).Count() > 0)
+                                    {
+                                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#@Html.DisplayFor(modelItem => alsostillitem.Category3)-collapse" aria-expanded="false">
+                                        @Html.DisplayFor(modelItem => alsostillitem.Category3)
+                                    </button>
+                                    <div class="collapse" id="@alsostillitem.Category3-collapse">
+                                        @foreach (var andalsostillitem in Model.Cat3s.Join(Model.Cat34s, x => x.Cat3id, y => y.Cat3id, (x, y) => new { x.Category3, y.Cat4id }).Join(Model.Cat4s, m => m.Cat4id, n => n.Cat4id, (m, n) => new { m.Category3, n.Category4 }).Where(z => z.Category3.ToUpper() == alsostillitem.Category3))
+                                        {
+                                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                            <li>
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="ShowSelected" asp-route-Item=@Newtonsoft.Json.JsonConvert.SerializeObject(andalsostillitem.Category4)>@Html.DisplayFor(modelItem => andalsostillitem.Category4)</a>
+                                            </li>
+                                        </ul>
+                                        }
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="ShowSelected" asp-route-Item=@Newtonsoft.Json.JsonConvert.SerializeObject(alsostillitem.Category3)>@Html.DisplayFor(modelItem => alsostillitem.Category3)</a>
+                                    }
+                                </li>
+                            </ul>
+                            }
+                        </div>
+                        }
+                        else
+                        {
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="ShowSelected" asp-route-Item=@Newtonsoft.Json.JsonConvert.SerializeObject(stillitem.Category2)>@Html.DisplayFor(modelItem => stillitem.Category2)</a>
+                        }
+
+                    </li>
+                </ul>
+                }
+            </div>
+            }
+            else
+            {
+            <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="ShowSelected" asp-route-Item=@Newtonsoft.Json.JsonConvert.SerializeObject(item.Category1)>@Html.DisplayFor(modelItem => item.Category1)</a>
+            }
+        </li>
+        }
+        <li class="border-top my-3"></li>
+    </ul>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Items" asp-action="Cart">Cart</a>
+</div>
+}
